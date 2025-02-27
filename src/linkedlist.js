@@ -49,6 +49,11 @@ export class LinkedList {
   }
 
   pop() {
+    if (this.head.nextNode === null) {
+      this.head = this.head.nextNode;
+      this.listSize--;
+      return;
+    }
     let tempNode = this.head;
     while (tempNode.nextNode !== null) {
       if (tempNode.nextNode.nextNode === null) {
@@ -120,6 +125,8 @@ export class LinkedList {
       return;
     } else if (index === 0) {
       this.head = this.head.nextNode;
+      this.listSize--;
+      return;
     }
     let nextNode = this.at(index + 1);
     let prevNode = this.at(index - 1);
