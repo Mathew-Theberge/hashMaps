@@ -98,6 +98,48 @@ class HashMap {
     this.capacity = 16;
     this.buckets = new Array(this.capacity);
   }
+
+  keys() {
+    let keys = [];
+    this.buckets.forEach((bucket) => {
+      if (bucket instanceof LinkedList && bucket.head !== null) {
+        let node = bucket.head;
+        for (let i = 0; i < bucket.listSize; i++) {
+          keys.push(node.value[0]);
+          node = node.nextNode;
+        }
+      }
+    });
+    return keys;
+  }
+
+  values() {
+    let values = [];
+    this.buckets.forEach((bucket) => {
+      if (bucket instanceof LinkedList && bucket.head !== null) {
+        let node = bucket.head;
+        for (let i = 0; i < bucket.listSize; i++) {
+          values.push(node.value[1]);
+          node = node.nextNode;
+        }
+      }
+    });
+    return values;
+  }
+
+  entries() {
+    let keysWithValues = [];
+    this.buckets.forEach((bucket) => {
+      if (bucket instanceof LinkedList && bucket.head !== null) {
+        let node = bucket.head;
+        for (let i = 0; i < bucket.listSize; i++) {
+          keysWithValues.push([node.value[0], node.value[1]]);
+          node = node.nextNode;
+        }
+      }
+    });
+    return keysWithValues;
+  }
 }
 
 const test = new HashMap();
@@ -132,15 +174,21 @@ test.set("frog", "green");
 
 console.log(test.length());
 
-test.clear();
+// test.clear();
+test.remove("frog");
+test.set("frog", "green");
+test.set("lion", "golden");
+test.remove("frog");
+
+console.log(test.entries());
 
 test.set("frog", "green");
 
-console.log(test.buckets);
+// console.log(test.buckets);
 
-test.buckets.forEach((bucket) => {
-  if (bucket instanceof LinkedList) {
-    console.log(bucket);
-    console.log(bucket.toString());
-  }
-});
+// test.buckets.forEach((bucket) => {
+//   if (bucket instanceof LinkedList) {
+//     console.log(bucket);
+//     console.log(bucket.toString());
+//   }
+// });
