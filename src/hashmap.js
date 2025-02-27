@@ -93,6 +93,11 @@ class HashMap {
     });
     return length;
   }
+
+  clear() {
+    this.capacity = 16;
+    this.buckets = new Array(this.capacity);
+  }
 }
 
 const test = new HashMap();
@@ -126,6 +131,12 @@ console.log(test.length());
 test.set("frog", "green");
 
 console.log(test.length());
+
+test.clear();
+
+test.set("frog", "green");
+
+console.log(test.buckets);
 
 test.buckets.forEach((bucket) => {
   if (bucket instanceof LinkedList) {
