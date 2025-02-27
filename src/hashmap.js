@@ -48,6 +48,29 @@ class HashMap {
       this.buckets[index] = new LinkedList();
       this.buckets[index].append([key, value]);
     }
+    if (this.capacity * this.loadFactor < this.length()) {
+      console.log(`load levels are too high`);
+      this.growArray();
+    }
+    console.log(
+      `load levels ${this.length()}/${this.capacity * this.loadFactor}`,
+    );
+  }
+
+  growArray() {
+    this.capacity *= 2;
+    const currentArrayCopy = this.buckets;
+    this.buckets = new Array(this.capacity);
+    console.log(`growing array to ${this.capacity} buckets`);
+    currentArrayCopy.forEach((bucket) => {
+      if (bucket instanceof LinkedList && bucket.head !== null) {
+        let node = bucket.head;
+        for (let i = 0; i < bucket.listSize; i++) {
+          this.set(node.value[0], node.value[1]);
+          node = node.nextNode;
+        }
+      }
+    });
   }
 
   get(key) {
@@ -72,6 +95,9 @@ class HashMap {
         if (node.value[0] === key) {
           console.log(`deleting ${node.value}`);
           this.buckets[index].remove(i);
+          console.log(
+            `load levels ${this.length()}/${this.capacity * this.loadFactor}`,
+          );
           return true;
         }
         node = node.nextNode;
@@ -159,36 +185,38 @@ test.set("tes", "5");
 test.set("te", "6");
 test.set("grape", "purple");
 test.set("hat", "black");
-test.set("ice cream", "white");
-test.set("jacket", "blue");
-test.set("kite", "pink");
-test.set("lion", "golden");
-
-console.log(test.length());
-
-test.remove("frog");
-
-console.log(test.length());
-
+test.set("ie cream", "white");
+test.set("jace", "pink");
+test.set("lin", "golden");
+test.set("banana", "yellow");
+test.set("carot", "orange");
+test.set("do", "brown");
+test.set("elphant", "gray");
 test.set("frog", "green");
+test.set("grpe", "purple");
+test.set("tst", "1");
+test.set("stt", "2");
+test.set("tettt", "3");
+test.set("testtt", "4");
+test.set("ts", "5");
+test.set("te", "6");
+test.set("grap", "purple");
+test.set("ht", "black");
+test.set("ie cream", "white");
+test.set("jaket", "blue");
+test.set("kie", "pink");
+test.set("lin", "golden");
+test.set("grpe", "purple");
+test.set("t", "black");
+test.set("ie crem", "white");
+test.set("jace", "pink");
+test.set("lin", "golden");
+test.set("banaa", "yellow");
+test.set("caot", "orange");
 
-console.log(test.length());
-
-// test.clear();
-test.remove("frog");
-test.set("frog", "green");
-test.set("lion", "golden");
-test.remove("frog");
-
-console.log(test.entries());
-
-test.set("frog", "green");
+test.remove("caot");
+test.set("caot", "orange");
 
 // console.log(test.buckets);
 
-// test.buckets.forEach((bucket) => {
-//   if (bucket instanceof LinkedList) {
-//     console.log(bucket);
-//     console.log(bucket.toString());
-//   }
-// });
+console.log(test.entries());
