@@ -17,6 +17,19 @@ class HashMap {
     return hashCode;
   }
 
+  matchKeys(key) {
+    let i = 0;
+    const index = this.hash(key);
+    let tempNode = this.buckets[index].head;
+    while (this.buckets[index].listSize > i) {
+      if (tempNode.value[0] === key) {
+        return tempNode;
+      }
+      tempNode = tempNode.nextNode;
+      i++;
+    }
+  }
+
   set(key, value) {
     const index = this.hash(key);
 
@@ -30,18 +43,13 @@ class HashMap {
       // require a linked list
 
       if (this.buckets[index] instanceof LinkedList) {
-        let i = 0;
-        let tempNode = this.buckets[index].head;
-        while (this.buckets[index].listSize > i) {
-          if (tempNode.value[0] === key) {
-            console.log(`updating key: ${key} to value: ${value}`);
-            tempNode.value = [key, value];
-            return;
-          }
-          tempNode = tempNode.nextNode;
-          i++;
+        const matchedKey = this.matchKeys(key);
+        if (matchedKey !== undefined) {
+          console.log(`updating key: ${key} to value: ${value}`);
+          matchedKey.value = [key, value];
+        } else {
+          this.buckets[index].append([key, value]);
         }
-        this.buckets[index].append([key, value]);
       }
       // this else clause is here to let buckets with 1 peice of data
       // to not need linkedlist objects to store the single element
@@ -62,6 +70,23 @@ class HashMap {
       this.buckets[index] = [key, value];
     }
   }
+
+  get(key) {
+    const index = this.hash(key);
+    if (this.buckets[index] === undefined) return null;
+
+    if (this.buckets[index] instanceof LinkedList) {
+      let matchedKey = this.matchKeys(key);
+      if (matchedKey !== undefined) return matchedKey.value[1];
+    } else if (this.buckets[index][0] === key) {
+      return this.buckets[index][1];
+    } else return null;
+  }
+
+  has(key) {
+    if (this.get(key) !== null) return true;
+    else return false;
+  }
 }
 
 const test = new HashMap();
@@ -80,10 +105,8 @@ test.set("kite", "pink");
 test.set("lion", "golden");
 console.log(test.buckets);
 
-console.log(test.buckets[11].toString());
-console.log(test.buckets[12].toString());
+console.log(test.buckets[6]);
+console.log(test.has("grape"));
+console.log(test.has("pink"));
 
-// console.log(hashMap.buckets[4]);
-// console.log(hashMap.buckets[8]);
-// console.log(hashMap.buckets[4].toString());
-// console.log(hashMap.buckets[8].toString());
+console.log(test.buckets[11].toString());
