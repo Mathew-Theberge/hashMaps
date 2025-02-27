@@ -79,6 +79,20 @@ class HashMap {
     }
     return false;
   }
+
+  length() {
+    let length = 0;
+    this.buckets.forEach((bucket) => {
+      if (bucket instanceof LinkedList && bucket.head !== null) {
+        let node = bucket.head;
+        for (let i = 0; i < bucket.listSize; i++) {
+          length++;
+          node = node.nextNode;
+        }
+      }
+    });
+    return length;
+  }
 }
 
 const test = new HashMap();
@@ -90,23 +104,28 @@ test.set("dog", "brown");
 test.set("elephant", "gray");
 test.set("frog", "green");
 test.set("grape", "purple");
-// test.set("appleee", "teel");
+test.set("test", "1");
+test.set("testt", "2");
+test.set("testtt", "3");
+test.set("testttt", "4");
+test.set("tes", "5");
+test.set("te", "6");
+test.set("grape", "purple");
+test.set("hat", "black");
+test.set("ice cream", "white");
+test.set("jacket", "blue");
+test.set("kite", "pink");
+test.set("lion", "golden");
 
-console.log(test.remove("frog"));
-// console.log(test.remove("apple"));
-// console.log(test.remove("WJDWBD"));
+console.log(test.length());
+
+test.remove("frog");
+
+console.log(test.length());
 
 test.set("frog", "green");
 
-// console.log(test.buckets);
-
-// console.log(test.buckets[6]);
-// console.log(test.has("grape"));
-// console.log(test.has("pink"));
-// console.log(test.get("frog"));
-// console.log(test.get("wdyhwhd"));
-
-// console.log(test.buckets[11].toString());
+console.log(test.length());
 
 test.buckets.forEach((bucket) => {
   if (bucket instanceof LinkedList) {
